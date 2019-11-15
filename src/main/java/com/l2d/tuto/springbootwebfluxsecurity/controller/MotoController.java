@@ -26,7 +26,32 @@ public class MotoController {
         Mono<String> username = principal.map(p -> p.getName());
         Mono<User> user = username.flatMap(userRepository::findByLogin);
         Mono<List<Moto>> listMono = user.map(user1 -> user1.getMotos());
-        return listMono.flatMapMany(Flux::fromIterable);
+        Flux<Moto> motoFlux = listMono.flatMapMany(Flux::fromIterable);
+        return motoFlux;
+    }
+
+    @GetMapping ("/{motoid}" )
+    public Flux<Moto> getMotoById(Mono<Principal> principal, @PathVariable String motoid) {
+        System.out.println(motoid);
+        Mono<String> username = principal.map(p -> p.getName());
+        Mono<User> user = username.flatMap(userRepository::findByLogin);
+        Mono<List<Moto>> listMono = user.map(user1 -> user1.getMotos());
+        Flux<Moto> motoFlux = listMono.flatMapMany(Flux::fromIterable);
+        return motoFlux.filter(moto->moto.getId().equals(motoid));
+    }
+
+
+    @DeleteMapping ("/{motoid}" )
+    public Mono<List<Moto>> delMoto (Mono<Principal> principal, @PathVariable String motoid) {
+        System.out.println(motoid);
+        Mono<String> username = principal.map(p -> p.getName());
+        Mono<User> user = username.flatMap(userRepository::findByLogin);
+        Mono<List<Moto>> listMono = user.map(user1 -> user1.getMotos());
+        Flux<Moto> motoFlux = listMono.flatMapMany(Flux::fromIterable);
+        Flux<Moto> motoFlux2 = motoFlux.filter(moto->moto.getId().equals(motoid));
+        motoFlux2.map(moto -> listMono.map(list-> list.remove(moto)));
+              //  .map(motoFlux1->user.map(user1->user1.setMotos(motoFlux1))));
+        return listMono;
     }
 
 
@@ -44,11 +69,9 @@ public class MotoController {
           motoList.add(moto);
           user1.setMotos(motoList);
          return userRepository.save(user1);
-        //  return user1;
         });
         }
-
-
-
-
 }
+
+// создать андроид приложение которое будет клиентом для этого.
+// Комментарий к 49-52
