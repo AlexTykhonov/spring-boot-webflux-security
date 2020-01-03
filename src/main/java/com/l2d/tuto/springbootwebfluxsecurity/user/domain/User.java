@@ -11,10 +11,7 @@ import org.springframework.security.core.Authentication;
 
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Document(collection = "user")
 @NoArgsConstructor
@@ -35,7 +32,7 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
 
-    private List<Moto> motos;
+    private List<Moto> motos = new ArrayList<>();
 
     public static Optional<User> currentUser (Authentication auth) {
         if (auth != null) {
