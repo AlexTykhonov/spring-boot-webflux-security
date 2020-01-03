@@ -58,7 +58,8 @@ public class JWTReactiveAuthenticationManager implements ReactiveAuthenticationM
             logger.info("authenticated user " + username + ", setting security context");
             return this.userDetailsService.findByUsername(username);
         }
-
         return null;
     }
 }
+
+// графически все это прорисовать андроид - спринг

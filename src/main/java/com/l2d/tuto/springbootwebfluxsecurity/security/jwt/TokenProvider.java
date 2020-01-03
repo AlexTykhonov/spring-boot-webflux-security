@@ -52,15 +52,19 @@ public class TokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
+//  {
+//  "sub": "Andrew",
+//  "auth": "ROLE_ADMIN",
+//  "exp": 1574626104
+//}
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
-                .setExpiration(validity)
+                .setSubject(authentication.getName()) //  "sub": "Andrew",
+                .claim(AUTHORITIES_KEY, authorities) //  "auth": "ROLE_ADMIN",
+                .signWith(SignatureAlgorithm.HS512, secretKey) // "alg": "HS512"
+                .setExpiration(validity) //  "exp": 1574626104
                 .compact();
     }
 
