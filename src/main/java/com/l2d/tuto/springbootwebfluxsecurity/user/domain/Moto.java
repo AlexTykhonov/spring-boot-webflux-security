@@ -14,7 +14,7 @@ public class Moto {
 
     @Id
 private String id;
-
+private String userId;
 private String model;
 private Long volume;
 }

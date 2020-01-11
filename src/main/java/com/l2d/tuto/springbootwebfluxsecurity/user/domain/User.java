@@ -34,6 +34,16 @@ public class User implements Serializable {
 
     private List<Moto> motos = new ArrayList<>();
 
+    public List<Moto> addMoto (Moto moto) {
+        System.out.println("+++++++++++++++++++++++++++++ USER -> addMoto !!!!!!!!!");
+     this.motos.add(moto);
+     return motos;
+    }
+
+    public void deleteAll () {
+      this.motos.removeAll(motos);
+    }
+
     public static Optional<User> currentUser (Authentication auth) {
         if (auth != null) {
             Object principal = auth.getPrincipal();
